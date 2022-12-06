@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
     Button btn_multiply, btn_plus, btn_minus, btn_negative, btn_point, btn_equal;
 
     TextView txt_pheptoan, txt_inputvaketqua;
+    boolean isNegative = false;
+
+    double num1, num2, resNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 txt_inputvaketqua.setText("0");
+                
             }
         });
 
@@ -202,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 txt_pheptoan.setText("");
                 txt_inputvaketqua.setText("0");
+                isNegative = false;
             }
         });
 
@@ -216,12 +221,137 @@ public class MainActivity extends AppCompatActivity {
                     txt_inputvaketqua.setText(s1.substring(0, length_s1 - 1));
                 } else {
                     txt_inputvaketqua.setText("0");
+                    isNegative = false;
                 }
 
             }
         });
 
 
+        //endregion
+
+
+        //region add, substract, mult, div,...
+        btn_equal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String s1 = txt_pheptoan.getText().toString();
+                String s2 = txt_inputvaketqua.getText().toString();
+                int length_s2 = s2.length();
+                int count = 0;
+                for (int i = 0; i < s1.length(); i++) {
+                    if (s1.charAt(i) == '-') {
+                        count++;
+                    }
+                }
+
+
+                if (!s1.contains("+") || !s1.contains("-") || !s1.contains("*") || !s1.contains("/")) {
+                    if (s2.charAt(length_s2 - 1) == '.') {
+                        txt_pheptoan.setText(s2.substring(0, length_s2 - 1) + "=");
+                        txt_inputvaketqua.setText(s2.substring(0, length_s2 - 1));
+                    } else {
+                        txt_pheptoan.setText(s2 + "=");
+                    }
+
+                }
+
+                if (s1.contains("=")) {
+
+                } else {
+                    if (s1.contains("+")) {
+                        String temp2 = txt_inputvaketqua.getText().toString();
+                        num2 = Double.parseDouble(temp2);
+                        resNum = num1 + num2;
+                        txt_pheptoan.setText(s1 + temp2 + "=");
+                        txt_inputvaketqua.setText(String.valueOf(resNum));
+                    }
+
+                    if (!isNegative && count == 1) {
+                        String temp2 = txt_inputvaketqua.getText().toString();
+                        num2 = Double.parseDouble(temp2);
+                        resNum = num1 - num2;
+                        txt_pheptoan.setText(s1 + temp2 + "=");
+                        txt_inputvaketqua.setText(String.valueOf(resNum));
+                    }
+
+                    if (isNegative && count == 2) {
+                        String temp2 = txt_inputvaketqua.getText().toString();
+                        num2 = Double.parseDouble(temp2);
+                        resNum = num1 - num2;
+                        txt_pheptoan.setText(s1 + temp2 + "=");
+                        txt_inputvaketqua.setText(String.valueOf(resNum));
+                    }
+
+                    if (s1.contains("x")) {
+                        String temp2 = txt_inputvaketqua.getText().toString();
+                        num2 = Double.parseDouble(temp2);
+                        resNum = num1 * num2;
+                        txt_pheptoan.setText(s1 + temp2 + "=");
+                        txt_inputvaketqua.setText(String.valueOf(resNum));
+                    }
+
+                    if (s1.contains("/")) {
+                        String temp2 = txt_inputvaketqua.getText().toString();
+                        num2 = Double.parseDouble(temp2);
+                        resNum = num1 / num2;
+                        txt_pheptoan.setText(s1 + temp2 + "=");
+                        txt_inputvaketqua.setText(String.valueOf(resNum));
+                    }
+                }
+
+
+                isNegative = false;
+            }
+        });
+
+
+        btn_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String temp1 = txt_inputvaketqua.getText().toString();
+                num1 = Double.parseDouble(temp1);
+                txt_pheptoan.setText(temp1 + "+");
+            }
+        });
+
+        btn_minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String temp1 = txt_inputvaketqua.getText().toString();
+                num1 = Double.parseDouble(temp1);
+                txt_pheptoan.setText(temp1 + "-");
+            }
+        });
+
+        btn_multiply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String temp1 = txt_inputvaketqua.getText().toString();
+                num1 = Double.parseDouble(temp1);
+                txt_pheptoan.setText(temp1 + "x");
+            }
+        });
+
+        btn_divide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String temp1 = txt_inputvaketqua.getText().toString();
+                num1 = Double.parseDouble(temp1);
+                txt_pheptoan.setText(temp1 + "/");
+            }
+        });
+
+
+        btn_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isNegative = (!isNegative) ? true : false;
+                String s3 = txt_inputvaketqua.getText().toString();
+                double temp3 = Double.parseDouble(s3) * (-1);
+                txt_inputvaketqua.setText(String.valueOf(temp3));
+            }
+        });
         //endregion
     }
 
